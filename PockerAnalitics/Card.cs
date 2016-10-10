@@ -9,19 +9,12 @@ namespace PockerAnalitics
 {
     public class Card
     {
+        //в полях хранятся поля для Масти, Номинала и Картики для карты
         public string Suit { get; set; }
         public string Kind { get; set; }
         public Bitmap Picture { get; set; }
-        //public Bitmap picture;        
 
-        public Card(string suit, string kind, Bitmap img)
-        {
-            this.Suit = suit; this.Kind = kind; this.Picture = img;
-        }
-
-        public Card()
-        { }
-
+        //возвращает числовое значение карты
         public int CardValue()
         {
             int value = 0;

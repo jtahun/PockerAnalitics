@@ -12,151 +12,203 @@ namespace PockerAnalitics
 {
     public partial class Form1 : Form
     {
-        Deck deck = new Deck();
-        PictureBox[] dto = new PictureBox[52];
-        string back = "../../images/backPng.png";
-        string suitNkind;
-        PictureBox buffPic;
-
-
-        int columnStep = 73;
-        int rowStep = 98;
+        public Game game;
+        List<Player> players;
+        List<Card> tableUsable;
+        System.Windows.Forms.Timer timer;
 
         public Form1()
         {
             InitializeComponent();
-            InitializePicBox();
-
-            int num = 0;
-            int x = showBack();
-            for (int i = 0; i < x; i++)
-                this.Controls.Add(dto[num++]);
         }
 
-        private void InitializePicBox()
+        //метод обработки нажатия Старт из меню
+        private void startToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            PictureBox[] pBxs = new PictureBox[]{picBxOne1,picBxOne2,picBxFlop1,picBxFlop2,
-                                                picBxFlop3,picBxTurn,picBxRiver,picBxTwo1,picBxTwo2};
-            foreach (var pB in pBxs)
-            {
-                pB.AllowDrop = true;
-                pB.MouseDown += pB_MouseDown;
-                pB.DragEnter += pB_DragEnter;
-                pB.DragDrop += pB_DragDrop;
-            }
+            game = new Game();
+            startToolStripMenuItem.Enabled = false;
+            initializeTable();
+            players = new List<Player>();
+            tableUsable = new List<Card>();
+            game.Play(out players, out tableUsable);
+            game.PerformEvalution();
+            game.defineWinner();
+            timerFunc();
         }
 
-        private int showBack()
+        private void initializeTable()
         {
-            int num = 0;
-            for (int i = 0; i <= 294 / rowStep; i++)
+            lblRes.Text = "";
+            lblWinner.Text = "";
+            string strPic = "../../images/backPng.png";
+            picFlopOne.Image = new Bitmap(strPic);
+            picFlopTwo.Image = new Bitmap(strPic);
+            picFlopThree.Image = new Bitmap(strPic);
+            picTurn.Image = new Bitmap(strPic);
+            picRiver.Image = new Bitmap(strPic);
+        }
+
+        //таймер ежесекундно вызывающий timerAction
+        private void timerFunc()
+        {
+            timer = new System.Windows.Forms.Timer();
+            timer.Interval = 50;
+            timer.Tick += new EventHandler(timerAction);
+            timer.Start();
+        }
+
+        //метод открывающий карты игрока и на столе
+        private void timerAction(object sender, EventArgs e)
+        {
+            showPlayersCards();
+            showTablesCards();
+        }
+
+        //вспомогательный метод открытия(присвоение) карт игрока
+        private void showPlayersCards()
+        {
+            //foreach (var player in players)
+            for (int i = 0; i < players.Count; i++)
             {
-                for (int j = 0; j <= 876 / columnStep; j++)
+                switch (players[i].Name)
                 {
-                    dto[num] = new PictureBox();
-                    dto[num].Click += new EventHandler(cardClicked);
-                    dto[num].DoubleClick += new EventHandler(othCardClicked);
-                    dto[num].DragEnter += image_DragEnter;
-                    dto[num].DragDrop += image_DragNdrop;
-                    dto[num].MouseDown += card_MouseDown;
-                    dto[num].BackColor = Color.Olive;
-                    dto[num].AllowDrop = true;
-                    dto[num].Location = new Point(j * columnStep, i * rowStep);
-                    dto[num].Size = new Size(columnStep, rowStep);
-                    dto[num].Image = new Bitmap(back);
-                    dto[num++].SizeMode = PictureBoxSizeMode.Zoom;
+                    case "Angela":
+                        {
+                            picDeOne.Image = players[i].Cards[0].Picture;
+                            picDeTwo.Image = players[i].Cards[1].Picture;
+                            break;
+                        }
+                    case "Barak":
+                        {
+                            picUsOne.Image = players[i].Cards[0].Picture;
+                            picUsTwo.Image = players[i].Cards[1].Picture;
+                            break;
+                        }
+                    case "Modi":
+                        {
+                            picInOne.Image = players[i].Cards[0].Picture;
+                            picInTwo.Image = players[i].Cards[1].Picture;
+                            break;
+                        }
+                    case "Vova":
+                        {
+                            picRuOne.Image = players[i].Cards[0].Picture;
+                            picRuTwo.Image = players[i].Cards[1].Picture;
+                            break;
+                        }
+                    case "Xi":
+                        {
+                            picCnOne.Image = players[i].Cards[0].Picture;
+                            picCnTwo.Image = players[i].Cards[1].Picture;
+                            break;
+                        }
+                    default:
+                        break;
                 }
             }
-            return num;
+
         }
 
-        private void image_DragNdrop(object sender, DragEventArgs e)
+        //вскрытие карт стола через паузу
+        int pbCircle = 0;
+        private void showTablesCards()
         {
-            var obj = (PictureBox)sender;
-            obj.Image = (Bitmap)e.Data.GetData(DataFormats.Bitmap);
-            obj.Name = suitNkind;
-        }
-
-        private void image_DragEnter(object sender, DragEventArgs e)
-        {
-            if (e.Data.GetDataPresent(DataFormats.Bitmap))
-                e.Effect = DragDropEffects.Move;
-        }
-
-        private void pB_MouseDown(object sender, MouseEventArgs e)
-        {
-            var pBx = (PictureBox)sender;
-            suitNkind = pBx.Name;
-
-            var img = pBx.Image;
-            if (img == null) return;
-            if (DoDragDrop(img, DragDropEffects.Move) == DragDropEffects.Move)
+            progressBar1.Value++;
+            if (progressBar1.Value == progressBar1.Maximum)
             {
-                pBx.Image = null;
-                pBx.Name = "";
+                pbCircle++;
+                if (pbCircle == 1)
+                    showFlop();
+                if (pbCircle == 2)
+                    showTurn();
+                if (pbCircle == 3)
+                {
+                    showRiver();
+                    timer.Stop();
+                }
+                progressBar1.Value = 0;
             }
-
         }
 
-        private void pB_DragEnter(object sender, DragEventArgs e)
+        //открытие позиции Ривер
+        private void showRiver()
         {
-            if (e.Data.GetDataPresent(DataFormats.Bitmap))
-                e.Effect = DragDropEffects.Move;
-        }
-
-        private void pB_DragDrop(object sender, DragEventArgs e)
-        {
-            var Obj = (PictureBox)sender;
-            Obj.Image = (Bitmap)e.Data.GetData(DataFormats.Bitmap, true);
-        }
-
-        private void card_MouseDown(object sender, MouseEventArgs e)
-        {
-            var obj = (PictureBox)sender;
-            suitNkind = obj.Name;
-            var pic = obj.Image;
-            if (pic == null) return;
-            if (DoDragDrop(pic, DragDropEffects.Move) == DragDropEffects.Move)
-                obj.Image = null;
-        }
-
-        private void cardClicked(object sender, EventArgs e)
-        {
-            buffPic = (sender as PictureBox);
-            string[] suitKind = buffPic.Name.Split(new Char[] { ' ' });
-            //Card card = deck.getCard(suitKind[0], suitKind[1]);
-            //buffPic.Image = card.Picture;
-        }
-
-        private void othCardClicked(object sender, EventArgs e)
-        {
-            PictureBox locPicbx = (sender as PictureBox);
-            locPicbx.Name = buffPic.Name; buffPic.Name = "One";
-            locPicbx.Image = buffPic.Image; buffPic.Image = new Bitmap(back);
-        }
-
-        private void showCards()
-        {
-            string suit_n_Kind = "";
-
-            for (int i = 0; i < 52; i++)
+            picRiver.Image = tableUsable[4].Picture;
+            startToolStripMenuItem.Enabled = true;
+            timer.Stop();
+            foreach (var player in players)
             {
-                dto[i].Image = deck.GetImage(out suit_n_Kind);
-                dto[i].Name = suit_n_Kind;
+                lblRes.Text += player.Name + "=" + player.Combination + ",";
+                if (player.Winner)
+                    lblWinner.Text = player.Name + "'s " + player.Combination + " won !!!";
             }
-            Deck othDeck = new Deck();
-            deck = othDeck;
+            pbCircle = 0;
+            game.Dispose();
         }
 
-        private void btnNorm_Click(object sender, EventArgs e)
+        //открытие позиции Тёрн
+        private void showTurn()
         {
-            showCards();
+            picTurn.Image = tableUsable[3].Picture;
         }
 
-        private void btnShuffle_Click_1(object sender, EventArgs e)
+        //открытие позиции Флоп
+        private void showFlop()
         {
-            deck.Shuffle();
-            showCards();
+            picFlopOne.Image = tableUsable[0].Picture;
+            picFlopTwo.Image = tableUsable[1].Picture;
+            picFlopThree.Image = tableUsable[2].Picture;
+        }
+
+        //назначение времени для цикла в 10 сек.
+        private void secToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            progressBar1.Maximum = 10;
+        }
+
+        //увеличение времени для цикла на 5 сек.
+        private void secToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            progressBar1.Maximum += 5;
+        }
+
+        //сокращение времени для цикла на 5 сек.
+        private void secToolStripMenuItem2_Click(object sender, EventArgs e)
+        {
+            if (progressBar1.Maximum == 5)
+            {
+                MessageBox.Show("It is already a lowest value");
+                return;
+            }
+            progressBar1.Maximum -= 5;
+        }
+
+        //остановка таймера и игры
+        private void stopToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            game.Dispose();
+            timer.Stop();
+            progressBar1.Value = 0;
+            startToolStripMenuItem.Enabled = true;
+            pbCircle = 0;
+        }
+
+        //перезапускает цикл с уже открывшимися картами
+        //для анализа определенных комбинвций
+        private void btnTest_Click(object sender, EventArgs e)
+        {
+            lblRes.Text = "";
+            timerFunc();
+            game.PerformEvalution();
+            game.defineWinner();
+        }
+
+        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("PockerAnalitics задумывалась как игра, которая бы определяла" +
+                            " вероятность   выигрыша   каждого из   персонажей и коэфицент" +
+                            " выигрыша для потенциальной ставки игрока. Пока не закончена.\nАвтор: jtahun@bk.ru",
+                            "PockerAnalitics");
         }
     }
 }
