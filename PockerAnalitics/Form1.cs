@@ -52,7 +52,7 @@ namespace PockerAnalitics
         private void timerFunc()
         {
             timer = new System.Windows.Forms.Timer();
-            timer.Interval = 50;
+            timer.Interval = 500;
             timer.Tick += new EventHandler(timerAction);
             timer.Start();
         }
