@@ -313,7 +313,7 @@
             // picFlopOne
             // 
             this.picFlopOne.Image = ((System.Drawing.Image)(resources.GetObject("picFlopOne.Image")));
-            this.picFlopOne.Location = new System.Drawing.Point(278, 310);
+            this.picFlopOne.Location = new System.Drawing.Point(282, 300);
             this.picFlopOne.Name = "picFlopOne";
             this.picFlopOne.Size = new System.Drawing.Size(56, 78);
             this.picFlopOne.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -323,7 +323,7 @@
             // picFlopTwo
             // 
             this.picFlopTwo.Image = ((System.Drawing.Image)(resources.GetObject("picFlopTwo.Image")));
-            this.picFlopTwo.Location = new System.Drawing.Point(353, 310);
+            this.picFlopTwo.Location = new System.Drawing.Point(355, 300);
             this.picFlopTwo.Name = "picFlopTwo";
             this.picFlopTwo.Size = new System.Drawing.Size(56, 78);
             this.picFlopTwo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -333,7 +333,7 @@
             // picFlopThree
             // 
             this.picFlopThree.Image = ((System.Drawing.Image)(resources.GetObject("picFlopThree.Image")));
-            this.picFlopThree.Location = new System.Drawing.Point(427, 310);
+            this.picFlopThree.Location = new System.Drawing.Point(429, 300);
             this.picFlopThree.Name = "picFlopThree";
             this.picFlopThree.Size = new System.Drawing.Size(56, 78);
             this.picFlopThree.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -343,7 +343,7 @@
             // picTurn
             // 
             this.picTurn.Image = ((System.Drawing.Image)(resources.GetObject("picTurn.Image")));
-            this.picTurn.Location = new System.Drawing.Point(528, 310);
+            this.picTurn.Location = new System.Drawing.Point(527, 300);
             this.picTurn.Name = "picTurn";
             this.picTurn.Size = new System.Drawing.Size(56, 78);
             this.picTurn.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -353,7 +353,7 @@
             // picRiver
             // 
             this.picRiver.Image = ((System.Drawing.Image)(resources.GetObject("picRiver.Image")));
-            this.picRiver.Location = new System.Drawing.Point(631, 311);
+            this.picRiver.Location = new System.Drawing.Point(628, 300);
             this.picRiver.Name = "picRiver";
             this.picRiver.Size = new System.Drawing.Size(56, 78);
             this.picRiver.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
