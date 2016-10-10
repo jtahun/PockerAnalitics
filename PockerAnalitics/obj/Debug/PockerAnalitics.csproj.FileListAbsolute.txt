@@ -1,0 +1,9 @@
+C:\Users\user\Desktop\delete\Forms\Practic170916\PockerAnalitics\PockerAnalitics\bin\Debug\PockerAnalitics.exe.config
+C:\Users\user\Desktop\delete\Forms\Practic170916\PockerAnalitics\PockerAnalitics\bin\Debug\PockerAnalitics.exe
+C:\Users\user\Desktop\delete\Forms\Practic170916\PockerAnalitics\PockerAnalitics\bin\Debug\PockerAnalitics.pdb
+C:\Users\user\Desktop\delete\Forms\Practic170916\PockerAnalitics\PockerAnalitics\obj\Debug\PockerAnalitics.csprojResolveAssemblyReference.cache
+C:\Users\user\Desktop\delete\Forms\Practic170916\PockerAnalitics\PockerAnalitics\obj\Debug\PockerAnalitics.Form1.resources
+C:\Users\user\Desktop\delete\Forms\Practic170916\PockerAnalitics\PockerAnalitics\obj\Debug\PockerAnalitics.Properties.Resources.resources
+C:\Users\user\Desktop\delete\Forms\Practic170916\PockerAnalitics\PockerAnalitics\obj\Debug\PockerAnalitics.csproj.GenerateResource.Cache
+C:\Users\user\Desktop\delete\Forms\Practic170916\PockerAnalitics\PockerAnalitics\obj\Debug\PockerAnalitics.exe
+C:\Users\user\Desktop\delete\Forms\Practic170916\PockerAnalitics\PockerAnalitics\obj\Debug\PockerAnalitics.pdb
